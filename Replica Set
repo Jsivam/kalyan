@@ -1,0 +1,4 @@
+ >>Use of daemon set instead of replica set>>
+
+By using daemon set we can enable same pod across all the worker. pods like health check tool on server
+By using daemon set we can enable  pod across all the worker by using node selector to select specific worker like SSD,HDD servers.
