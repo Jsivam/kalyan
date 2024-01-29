@@ -1,0 +1,10 @@
+
+Query:
+You have deployed an application, that is listening at port 8000. You used a replica-set to deploy it and created a NodePort service to make it accessible. But when you test it, somehow the application is not reachable at the port.
+Write down your approach and sequentially all the steps that you will take to find out the issue
+
+Answer:
+1. Node port .yaml file does not configure with correct Target port which is mentioned  application images( eg: in application mentioned as 8000 but in nodeport.yaml mentioned as 8080 for target port)
+2. Node port .yaml file does not configure with correct NODE port which is used with public IP ( eg: in node.yaml file mentioned as 30001 in node port  but in  web browser used public ip: with port 30100 port (other than node port)
+3. Mapped selector app in node port.yaml is not installed/ not correct. eg: node port is having mapped with kubia app selector  but the kubia pod is not installed. or app selector name is wrong
+4. kind:service may not create properly with Type: node port that time we may not able to access the application  through node port
