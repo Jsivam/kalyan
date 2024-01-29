@@ -1,0 +1,48 @@
+Query:Suppose you have deployed your application using a deployment controller. Assume the initial number of replicas is one. Write the steps needed to update a container's image using deployment, making sure that there is zero downtime.
+
+  Ans:
+
+step1: deployement with 1 replica
+
+            apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kubia
+          spec:
+            selector:
+              matchLabels:
+                app: kubia
+            replicas: 1
+            template:
+              metadata:
+                name: kubia
+                labels:
+                  app: kubia
+              spec:
+                containers:
+                - image: luksa/kubia:v1
+                  name: nodejs
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: kubia
+          spec:
+            type: ClusterIP
+            selector:
+              app: kubia
+            ports:
+            - port: 80
+              targetPort: 8080
+
+
+
+
+      step2:making sure that there is zero downtime.
+
+                  kubectl patch deployment kubia -p '{"spec": {"minReadySeconds": 10}}'
+
+    step 3:    (steps needed to update a container's image using deployment)    
+              
+                kubectl set image deployment kubia nodejs=luksa/kubia:v2
+                kubectl set image deployment kubia nodejs=luksa/kubia:v3
